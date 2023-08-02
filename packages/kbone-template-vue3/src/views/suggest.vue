@@ -23,9 +23,11 @@
       </van-row>
     </div>
     <div class="message" v-show="show">
-      <TextArea :max-length="144" :show-counter="true" />
-      <van-button>发表</van-button>
-      <div class="close">
+      <div class="message-content">
+        <TextArea :max-length="144" :show-counter="true" />
+        <van-button class="message-submit">发表</van-button>
+      </div>
+      <div class="message-close">
         <img :src="`${staticUrl}/song_close.png`" @click="onClose" />
       </div>
     </div>
@@ -162,26 +164,45 @@ const onClose = () => {
   .message {
     width: 350px;
     height: 150px;
-    margin: 12px;
+    margin: 24px;
     position: fixed;
     top: 350px;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-image: url('https://static.tinmusic.com.cn/assets/message_source.png');
+    width: calc(100% - 48px);
+    border-radius: 6%;
+    height: 300px;
+    background-color: #ffca43;
+    border: 1px solid #252525;
+    box-shadow: 0 3px 0 0 #252525;
+    box-sizing: border-box;
+    padding: 12px;
 
-    div {
-      padding: 15px 25px;
+    &-content {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #252525;
+      border-radius: 6%;
+      background-color: #d5fefc;
+      overflow: hidden;
 
       textarea {
-        height: 150px;
+        height: 230px;
+        padding: 12px;
+        background-color: #fff;
+        overflow: auto;
       }
     }
 
-    .close {
+    &-submit {
+      background-color: #eb7373;
+      border-radius: 20px;
+      border: 1px solid #1f1f1f;
+      box-shadow: 0 3px 0 0 #252525;
+    }
+
+    &-close {
       position: absolute;
-      top: -40px;
-      right: -40px;
+      top: -20px;
+      right: -20px;
       width: 45px;
     }
   }
