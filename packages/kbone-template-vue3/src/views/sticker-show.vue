@@ -64,6 +64,14 @@ const onLike = async () => {
                 duration: 2000
             })
         }
+    } else {
+        if (isMiniprogram) {            
+            wx.showToast({
+                title: '今日已投满三票',
+                icon: 'error',
+                duration: 2000
+            })
+        }
     }
 }
 

@@ -11,7 +11,7 @@
         <h3 class="title">我的表情包</h3>
         <van-row gutter="10" class="list">
             <van-col v-for="(item, index) in list" :key="item.id" span="8">
-                <Stick :rank="index + 1" :like="item.like" :url="item.imageUrl">
+                <Stick :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
                     <template v-slot:extra>
                         <div class="item_extra">
                             
