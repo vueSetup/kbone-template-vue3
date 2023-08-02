@@ -1,11 +1,12 @@
 {
   "private": true,
-  "packageManager": "pnpm@7.30.0",
+  "packageManager": "pnpm@8.6.10",
   "scripts": {
     "clean": "pnpm clean:packages & rimraf node_modules",
     "commit": "git-cz",
     "start": "pnpm --filter kbone-template-vue3 start",
-    "start:mp": "pnpm --filter kbone-template-vue3 build"
+    "start:mp": "pnpm --filter kbone-template-vue3 start:mp",
+    "build": "pnpm --filter kbone-template-vue3 build"
   },
   "dependencies": {
     "vue": "^3.3.4"

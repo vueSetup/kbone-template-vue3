@@ -1,11 +1,12 @@
 import { defineComponent, ref, watchEffect } from 'vue'
 
 export const Input = defineComponent({
+  inheritAttrs: false,
   props: {
     modelValue: String
   },
   emits: ['update:modelValue'],
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const modelValue = ref<string>(props.modelValue || '')
 
     watchEffect(() => {
@@ -17,7 +18,7 @@ export const Input = defineComponent({
 
       return (
         <div>
-          <input class={classNames} v-model={modelValue.value} />
+          <input class={classNames} v-model={modelValue.value} {...attrs} />
         </div>
       )
     }
