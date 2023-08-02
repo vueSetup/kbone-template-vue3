@@ -1,7 +1,7 @@
 <template>
     <van-row>
         <van-col span="14" offset="5">
-            <img :src="`${staticUrl}/upload_btn.png`" alt="" @click="onChoose" />
+            <img :src="`${staticUrl}/${props.button}`" alt="" @click="onChoose" />
         </van-col>
     </van-row>
 </template>
@@ -11,6 +11,17 @@ import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
 
 const emits = defineEmits(['finish'])
+
+const props = defineProps({
+    button: {
+        type: String,
+        default: 'upload_btn.png'
+    },
+    id: {
+        type: Number,
+        default: 0
+    }
+})
 
 const onChoose = () => {
     if (!isMiniprogram) return
@@ -33,8 +44,9 @@ const onChoose = () => {
 const onUpload = async (url: string) => {
     if (!isMiniprogram) return
     const serialNumber = current.value
+    const api = props.id ? `/api/start/stickers/${props.id}` : `/api/start/${serialNumber}/stickers`;
     // const uploader = await upload(serialNumber, url, async (imageUrl) => {
-    //     const payload = await request.put(`/api/start/${serialNumber}/stickers`, { imageUrl })
+    //     const payload = await request.put(api, { imageUrl })
     //     if (payload.data) {
     //         wx.showToast({
     //             title: '表情上传成功',
@@ -42,6 +54,13 @@ const onUpload = async (url: string) => {
     //             duration: 2000
     //         })
     //         emits('finish', payload.data)
+    //     }
+    //     if (payload.status === 204) {
+    //         wx.showToast({
+    //             title: '已上传十个表情',
+    //             icon: 'error',
+    //             duration: 2000
+    //         })
     //     }
     // })
     // uploader.startUpload()

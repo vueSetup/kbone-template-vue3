@@ -14,7 +14,7 @@
                 <Stick :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
                     <template v-slot:extra>
                         <div class="item_extra">
-                            
+                            <Upload :id="item.id" button="settings_upload.png" @finish="onLoad" />
                         </div>
                     </template>
                 </Stick>
@@ -25,6 +25,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import Stick from "@/components/stick.vue";
+import Upload from "@/components/upload-button.vue";
 import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
 import type { Sticker } from "@/types";
@@ -45,16 +46,21 @@ watchEffect(async () => {
     }
 })
 
-watchEffect(async () => {
+const onLoad = async () => {
     const serialNumber = current.value
     const payload = await request.get(`/api/start/${serialNumber}/stickers`);
     list.value = payload.data as Sticker[];
+}
+
+watchEffect(() => {
+    onLoad()
 })
+
 
 const onChooseAvatar = async (e: { detail: Record<string, unknown> }) => {
     const { avatarUrl } = e.detail as { avatarUrl: string }
     if (isMiniprogram) {
-        const serialNumber = current.value
+        // const serialNumber = current.value
         // const uploader = await upload(serialNumber, avatarUrl, async (imageUrl) => {
         //     const payload = await request.post(`/api/start/${serialNumber}/avatar`, { imageUrl })
         //     if (payload.data) {
@@ -91,6 +97,14 @@ const onChooseAvatar = async (e: { detail: Record<string, unknown> }) => {
 
         .van-col {
             margin-bottom: 15px;
+        }
+
+        .item_extra {
+            img {
+                width: 65px;
+                padding-top: 25px;
+                padding-left: 5px;
+            }
         }
     }
 

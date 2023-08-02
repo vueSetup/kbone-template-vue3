@@ -36,20 +36,11 @@ import { request } from "@/utils";
 import type { Sticker } from "@/types";
 
 const list = ref<Sticker[]>([]);
-const loading = ref(false);
-const finished = ref(false);
-const refreshing = ref(false);
 
 const onLoad = async () => {
     const payload = await request.get('/api/start/stickers');
     list.value = payload.data as Sticker[];
-};
-
-const onRefresh = () => {
-    finished.value = false;
-    loading.value = true;
-    onLoad();
-};
+}
 
 watchEffect(() => {
     onLoad()

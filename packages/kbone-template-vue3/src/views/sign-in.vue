@@ -29,8 +29,8 @@ import { isMiniprogram, current } from "@/shared/context";
 import { request } from "@/utils";
 
 const state = reactive<{
-    serialNumber?: string,
-    phoneNumber?: string
+    serialNumber?: number,
+    phoneNumber?: number
 }>({})
 
 const router = useRouter()
@@ -40,7 +40,7 @@ const login = async () => {
     const success = payload.data as boolean
     if (success) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        current.value = state.serialNumber!
+        current.value = state.serialNumber!.toString()
         router.push('sticker')
     } else {
         if (!isMiniprogram) return
