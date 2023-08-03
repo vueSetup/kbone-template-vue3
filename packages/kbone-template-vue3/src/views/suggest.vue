@@ -50,6 +50,7 @@ const msg = ref<string>('')
 const onLoad = async () => {
   const payload = await request.get('/api/start/suggests')
   list.value = payload.data
+  // list.value = []
   // setTimeout(() => {
   //   if (refreshing.value) {
   //     list.value = []
@@ -67,7 +68,6 @@ const onLoad = async () => {
   //   }
   // }, 1000)
 }
-
 
 
 watchEffect(() => {
