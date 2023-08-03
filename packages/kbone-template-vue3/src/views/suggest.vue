@@ -1,18 +1,15 @@
 <template>
   <div class="suggest">
     <img src="https://static.tinmusic.com.cn/assets/suggest_top.png" class="brand" />
-    <!-- <img :src="`${staticUrl}/show_waiting.png`" /> -->
     <div class="chat-container">
       <img src="https://static.tinmusic.com.cn/assets/suggest_rabbit.png" alt="兔子装饰" />
       <div class="chat">
         <template v-for="item in list" :key="item">
           <div class="chat-item">
             <div class="chat-item-avatar">
-              <img
-                src="https://outin-7aeed7622f3111eea2e800163e10ce6c.oss-cn-beijing.aliyuncs.com/image/default/C041A52DDCEF4DF4A994F056896AE511-6-2.png"
-              />
+              <img :src="item.avatarUrl" />
             </div>
-            {{ item }}
+            {{ item.message }}
           </div>
         </template>
       </div>
@@ -26,8 +23,8 @@
     </div>
     <div class="message" v-show="show">
       <div class="message-content">
-        <TextArea :max-length="144" :show-counter="true" />
-        <van-button class="message-submit">发表</van-button>
+        <TextArea v-model="msg" :max-length="144" :show-counter="true" />
+        <van-button class="message-submit" @click="onSubmit">发表</van-button>
       </div>
       <div class="message-close">
         <img :src="`${staticUrl}/song_close.png`" @click="onClose" />
@@ -38,7 +35,8 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { TextArea } from 'weui-vue'
-import { isMiniprogram, staticUrl } from '@/shared/context'
+import { staticUrl, current } from '@/shared/context'
+import { request } from '@/utils'
 
 const show = ref<boolean>(false)
 
@@ -46,24 +44,34 @@ const list = ref<string[]>([])
 const loading = ref(false)
 const finished = ref(false)
 const refreshing = ref(false)
+const msg = ref<string>('')
 
-const onLoad = () => {
-  setTimeout(() => {
-    if (refreshing.value) {
-      list.value = []
-      refreshing.value = false
-    }
+const onLoad = async () => {
+  const payload = await request.get('/api/start/suggests')
+  list.value = payload.data
+  // setTimeout(() => {
+  //   if (refreshing.value) {
+  //     list.value = []
+  //     refreshing.value = false
+  //   }
 
-    for (let i = 0; i < 10; i++) {
-      // list.value.push('哈哈哈')
-      list.value.push('发量不变少，发际线不后移，朝九晚五不加班！')
-    }
-    loading.value = false
+  //   for (let i = 0; i < 10; i++) {
+  //     // list.value.push('哈哈哈')
+  //     list.value.push('发量不变少，发际线不后移，朝九晚五不加班！')
+  //   }
+  //   loading.value = false
 
-    if (list.value.length >= 40) {
-      finished.value = true
-    }
-  }, 1000)
+  //   if (list.value.length >= 40) {
+  //     finished.value = true
+  //   }
+  // }, 1000)
+}
+
+const onSubmit = async () => {
+  const serialNumber = current.value
+  console.log('submit', msg.value)
+  const result = await request.put(`/api/suggests/${serialNumber}`, { message: msg.value })
+  console.log('result', result)
 }
 
 watchEffect(() => {
@@ -101,6 +109,7 @@ const onClose = () => {
   .chat-container {
     position: relative;
     box-sizing: border-box;
+    min-height: calc(100% - 371px);
     // height: calc(100% - 371px);
     margin: 0 20px;
     padding: 8px 8px 0;
@@ -120,7 +129,7 @@ const onClose = () => {
   }
 
   .chat {
-    height: 100%;
+    min-height: 100%;
     background-color: #d5fefc;
     border: 1px solid #b3a864;
     border-bottom: unset;
