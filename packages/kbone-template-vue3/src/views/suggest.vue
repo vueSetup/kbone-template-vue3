@@ -9,6 +9,7 @@
             <div class="chat-item-avatar">
               <img :src="item.avatarUrl" />
             </div>
+            <div class="chat-item-username">{{ item.author }}</div>
             {{ item.message }}
           </div>
         </template>
@@ -182,12 +183,15 @@ const onSubmit = async () => {
     border: 1px solid #9f9162;
   }
 
-  .chat-item:nth-child(odd) .chat-item-avatar {
-    right: -40px;
-  }
-
-  .chat-item:nth-child(even) .chat-item-avatar {
-    left: -40px;
+  .chat-item-username {
+    position: absolute;
+    top: 48px;
+    width: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    text-align: center;
   }
 
   .chat-item:nth-child(odd) {
@@ -195,14 +199,42 @@ const onSubmit = async () => {
     padding-left: 24px;
     background-color: #ffca43;
     align-items: flex-start;
+
+    .chat-item-avatar {
+      right: -40px;
+    }
+    .chat-item-username {
+      right: -28px;
+    }
   }
 
-  .chat-item:nth-of-type(even) {
+  .chat-item:nth-child(even) {
     padding-right: 24px;
     padding-left: 32px;
     background-color: #ffffe9;
     align-self: flex-end;
+
+    .chat-item-avatar {
+      left: -40px;
+    }
+    .chat-item-username {
+      left: -32px;
+    }
   }
+
+  // .chat-item:nth-child(odd) {
+  //   padding-right: 32px;
+  //   padding-left: 24px;
+  //   background-color: #ffca43;
+  //   align-items: flex-start;
+  // }
+
+  // .chat-item:nth-of-type(even) {
+  //   padding-right: 24px;
+  //   padding-left: 32px;
+  //   background-color: #ffffe9;
+  //   align-self: flex-end;
+  // }
 
   .message {
     margin: 24px;
