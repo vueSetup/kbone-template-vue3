@@ -2,18 +2,20 @@
   <div class="suggest">
     <img src="https://static.tinmusic.com.cn/assets/suggest_top.png" class="brand" />
     <!-- <img :src="`${staticUrl}/show_waiting.png`" /> -->
-    <div class="chat">
-      <template v-for="item in list" :key="item">
-        <div class="chat-item">
-          <div class="chat-item-avatar">
-            <img
-              src="https://outin-7aeed7622f3111eea2e800163e10ce6c.oss-cn-beijing.aliyuncs.com/image/default/C041A52DDCEF4DF4A994F056896AE511-6-2.png"
-            />
+    <div class="chat-container">
+      <img src="https://static.tinmusic.com.cn/assets/suggest_rabbit.png" alt="兔子装饰" />
+      <div class="chat">
+        <template v-for="item in list" :key="item">
+          <div class="chat-item">
+            <div class="chat-item-avatar">
+              <img
+                src="https://outin-7aeed7622f3111eea2e800163e10ce6c.oss-cn-beijing.aliyuncs.com/image/default/C041A52DDCEF4DF4A994F056896AE511-6-2.png"
+              />
+            </div>
+            {{ item }}
           </div>
-          {{ item }}
-          <!-- <div class="chat-item-content">{{ item }}</div> -->
-        </div>
-      </template>
+        </template>
+      </div>
     </div>
     <div class="sticky">
       <van-row>
@@ -85,7 +87,7 @@ const onClose = () => {
 <style lang="less">
 .suggest {
   height: 100%;
-  background-color: #b6effa;
+  background-color: #a6f1fc;
 
   img {
     width: 100%;
@@ -96,28 +98,53 @@ const onClose = () => {
     bottom: 80px;
   }
 
+  .chat-container {
+    position: relative;
+    box-sizing: border-box;
+    height: calc(100% - 371px);
+    margin: 0 20px;
+    padding: 8px 8px 0;
+    border: 1px solid #b3a864;
+    border-bottom: unset;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    background-color: #ffcb42;
+    // overflow: hidden;
+
+    & > img {
+      position: absolute;
+      width: 80px;
+      top: -34px;
+      right: 20px;
+    }
+  }
+
   .chat {
-    margin-bottom: 15px;
-    // background-attachment: fixed;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-image: url(https://static.tinmusic.com.cn/assets/chat_bg.png);
+    height: 100%;
+    background-color: #d5fefc;
+    border: 1px solid #b3a864;
+    border-bottom: unset;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
     display: flex;
     flex-direction: column;
-    padding: 40px 48px 0;
+    padding: 40px 24px 0;
+    overflow: auto;
   }
 
   .chat-item {
     box-sizing: border-box;
     width: 240px;
-    min-height: 40px;
+    // min-height: 40px;
     border-radius: 16px;
     margin-bottom: 32px;
     position: relative;
     box-shadow: 0 3px 0 0 #252525;
     padding-top: 12px;
     padding-bottom: 12px;
+  }
+  .chat-item:last-child {
+    margin-bottom: 62px;
   }
 
   .chat-item-avatar {
@@ -162,14 +189,12 @@ const onClose = () => {
   }
 
   .message {
-    width: 350px;
-    height: 150px;
     margin: 24px;
     position: fixed;
-    top: 350px;
+    top: 280px;
     width: calc(100% - 48px);
     border-radius: 6%;
-    height: 300px;
+    height: 262px;
     background-color: #ffca43;
     border: 1px solid #252525;
     box-shadow: 0 3px 0 0 #252525;
@@ -177,6 +202,7 @@ const onClose = () => {
     padding: 12px;
 
     &-content {
+      position: relative;
       width: 100%;
       height: 100%;
       border: 1px solid #252525;
@@ -185,7 +211,7 @@ const onClose = () => {
       overflow: hidden;
 
       textarea {
-        height: 230px;
+        height: 140px;
         padding: 12px;
         background-color: #fff;
         overflow: auto;
@@ -193,6 +219,11 @@ const onClose = () => {
     }
 
     &-submit {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 28px;
       background-color: #eb7373;
       border-radius: 20px;
       border: 1px solid #1f1f1f;
