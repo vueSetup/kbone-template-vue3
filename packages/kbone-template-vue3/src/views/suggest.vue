@@ -200,6 +200,7 @@ const onClose = () => {
     box-shadow: 0 3px 0 0 #252525;
     box-sizing: border-box;
     padding: 12px;
+    z-index: 100;
 
     &-content {
       position: relative;
