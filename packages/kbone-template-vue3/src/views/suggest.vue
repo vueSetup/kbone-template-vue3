@@ -190,7 +190,7 @@ const onSubmit = async () => {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
   }
 
