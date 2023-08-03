@@ -37,7 +37,7 @@ import { ref, watchEffect } from 'vue'
 import { TextArea } from 'weui-vue'
 import { isMiniprogram, staticUrl, current } from '@/shared/context'
 import { request } from '@/utils'
-import type { Suggest } from '@/types';
+import type { Suggest } from '@/types'
 
 const show = ref<boolean>(false)
 
@@ -69,25 +69,6 @@ const onLoad = async () => {
   // }, 1000)
 }
 
-<<<<<<< HEAD
-
-=======
-const onSubmit = async () => {
-  const serialNumber = current.value
-  console.log('submit', msg.value)
-  const result = await request.put(`/api/start/suggests/${serialNumber}`, { message: msg.value })
-  if (result) {
-    wx.showToast({
-      title: '许愿成功',
-      icon: 'success',
-      duration: 2000
-    })
-  }
-  show.value = false
-  onLoad()
-}
->>>>>>> 1aea89351b2d904c99dbe1260dbedefe8538b07e
-
 watchEffect(() => {
   onLoad()
 })
@@ -106,7 +87,7 @@ const onSubmit = async () => {
   const payload = await request.put(`/api/start/suggests/${serialNumber}`, { message: msg.value })
   if (payload.data) {
     show.value = false
-    onLoad()    
+    onLoad()
     if (isMiniprogram) {
       wx.showToast({
         title: '已成功许愿',
@@ -144,7 +125,7 @@ const onSubmit = async () => {
     border-top-right-radius: 16px;
     background-color: #ffcb42;
 
-    &>img {
+    & > img {
       position: absolute;
       width: 80px;
       top: -35px;
