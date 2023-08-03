@@ -101,7 +101,7 @@ const onClose = () => {
   .chat-container {
     position: relative;
     box-sizing: border-box;
-    height: calc(100% - 371px);
+    // height: calc(100% - 371px);
     margin: 0 20px;
     padding: 8px 8px 0;
     border: 1px solid #b3a864;
@@ -109,13 +109,13 @@ const onClose = () => {
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     background-color: #ffcb42;
-    // overflow: hidden;
 
     & > img {
       position: absolute;
       width: 80px;
-      top: -34px;
+      top: -35px;
       right: 20px;
+      z-index: 99;
     }
   }
 
@@ -144,7 +144,7 @@ const onClose = () => {
     padding-bottom: 12px;
   }
   .chat-item:last-child {
-    margin-bottom: 62px;
+    margin-bottom: 64px;
   }
 
   .chat-item-avatar {
@@ -215,6 +215,7 @@ const onClose = () => {
         padding: 12px;
         background-color: #fff;
         overflow: auto;
+        font-size: 16px;
       }
     }
 
