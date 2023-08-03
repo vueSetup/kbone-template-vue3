@@ -5,7 +5,7 @@
             <Form>
                 <FormCell>
                     <CellBody>
-                        <Input type="number" placeholder="请输入员工编号" v-model="state.serialNumber" />
+                        <Input placeholder="请输入员工编号" v-model="state.serialNumber" />
                     </CellBody>
                 </FormCell>
             </Form>
@@ -13,7 +13,7 @@
             <Form>
                 <FormCell>
                     <CellBody>
-                        <Input type="number" placeholder="请输入手机尾号后四位" v-model="state.phoneNumber" />
+                        <Input placeholder="请输入手机尾号后四位" v-model="state.phoneNumber" />
                     </CellBody>
                 </FormCell>
             </Form>
@@ -84,6 +84,7 @@ const login = async () => {
                 padding: 10px 10px 5px 10px;
                 font-size: 14px;
                 background-color: #ffffff;
+                color: #000000;
             }
         }
 

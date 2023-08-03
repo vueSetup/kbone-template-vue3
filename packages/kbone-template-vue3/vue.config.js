@@ -10,8 +10,6 @@ const pxtoviewport = require('postcss-px-to-viewport')
 const isMiniprogram = JSON.stringify(process.env.VUE_APP_isMiniprogram)
 const isDevelopment = process.env.NODE_ENV === 'development'
 
-console.warn('isDevelopment', isDevelopment)
-
 module.exports = defineConfig({
   transpileDependencies: true,
   outputDir: 'dist/mp/common',

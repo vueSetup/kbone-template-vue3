@@ -1,8 +1,8 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse, AxiosError } from 'axios'
 
 const request = axios.create({
-  baseURL: 'https://api.tinmusic.com.cn'
-  // baseURL: 'http://localhost:58834'
+  // baseURL: 'https://api.tinmusic.com.cn'
+  baseURL: 'http://localhost:58834'
 })
 
 export type Response<T> = AxiosResponse<{

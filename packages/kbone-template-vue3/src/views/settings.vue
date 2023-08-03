@@ -8,23 +8,39 @@
         <div class="name">
             {{ name }}
         </div>
-        <h3 class="title">我的表情包</h3>
-        <van-row gutter="10" class="list">
-            <van-col v-for="(item, index) in list" :key="item.id" span="8">
-                <Stick :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
-                    <template v-slot:extra>
-                        <div class="item_extra">
-                            <Upload :id="item.id" button="settings_upload.png" @finish="onLoad" />
-                        </div>
-                    </template>
-                </Stick>
-            </van-col>
-        </van-row>
+        <div class="title">
+            <h4 :class="isSelfShow ? 'active' : ''" @click="onToggle">我的表情包</h4>
+            <h4 :class="!isSelfShow ? 'active' : ''" @click="onToggle">表情包素材</h4>
+        </div>
+        <div v-if="isSelfShow">
+            <van-row gutter="10" class="list">
+                <van-col span="24" v-if="list.length == 0">
+                    <van-empty :image="`${staticUrl}/empty-image.png`" image-size="80" description="暂未上传表情" />
+                </van-col>
+                <van-col v-else v-for="(item, index) in list" :key="item.id" span="8">
+                    <Stick :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
+                        <template v-slot:extra>
+                            <div class="item_extra">
+                                <Upload :id="item.id" button="settings_upload.png" @finish="onLoad" />
+                            </div>
+                        </template>
+                    </Stick>
+                </van-col>
+            </van-row>
+        </div>
+        <div v-else>
+            <van-row gutter="10" class="list">
+                <van-col v-for="imageUrl in copies" :key="imageUrl" span="8">
+                    <StickCopy :imageUrl="imageUrl" />
+                </van-col>
+            </van-row>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import Stick from "@/components/stick.vue";
+import StickCopy from "@/components/stick-copy.vue";
 import Upload from "@/components/upload-button.vue";
 import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
@@ -35,6 +51,9 @@ const avatar = ref(`${staticUrl}/user-unlogin.png`)
 const name = ref(`加载中...`)
 
 const list = ref<Sticker[]>([]);
+const copies = ref<string[]>([]);
+
+const isSelfShow = ref<boolean>(true)
 
 watchEffect(async () => {
     const serialNumber = current.value
@@ -52,15 +71,26 @@ const onLoad = async () => {
     list.value = payload.data as Sticker[];
 }
 
-watchEffect(() => {
-    onLoad()
+// 加载我的表情包
+watchEffect(async () => {
+    await onLoad()
+    if (list.value.length === 0) {
+        isSelfShow.value = false
+    }
 })
 
+// 加载表情包素材
+watchEffect(async () => {
+    for (let i = 1; i <= 19; i++) {
+        copies.value.push(`${staticUrl}/stickers/${i}.png`);
+    }
+})
 
 const onChooseAvatar = async (e: { detail: Record<string, unknown> }) => {
+    console.log('onChooseAvatar', e)
     const { avatarUrl } = e.detail as { avatarUrl: string }
     if (isMiniprogram) {
-        // const serialNumber = current.value
+        const serialNumber = current.value
         // const uploader = await upload(serialNumber, avatarUrl, async (imageUrl) => {
         //     const payload = await request.post(`/api/start/${serialNumber}/avatar`, { imageUrl })
         //     if (payload.data) {
@@ -74,6 +104,10 @@ const onChooseAvatar = async (e: { detail: Record<string, unknown> }) => {
         // })
         // uploader.startUpload()
     }
+}
+
+const onToggle = () => {
+    isSelfShow.value = !isSelfShow.value
 }
 
 </script>
@@ -90,6 +124,17 @@ const onChooseAvatar = async (e: { detail: Record<string, unknown> }) => {
     .title {
         padding: 10px 20px;
         font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+
+        h4 {
+            font-weight: normal;
+
+            &.active {
+                font-weight: bold;
+                color: #1f1f1f;
+            }
+        }
     }
 
     .list {

@@ -8,17 +8,6 @@
         <div class="extra">
             <slot name="extra"></slot>
         </div>
-        <!-- <h4 class="ranking">{{ ranking }}</h4>
-        <div class="image">
-            <img :src="url" />
-        </div>
-        <van-row>
-            <van-col span="16">作者</van-col>
-            <van-col span="8" class="like">
-                <van-icon name="like-o" />
-                <span>{{ props.like }}</span>
-            </van-col>
-        </van-row> -->
     </div>
 </template>
 <script setup lang="ts">
@@ -32,11 +21,6 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
-
-const ranking = computed(() =>
-    // props.rank.toString().padStart(3, '0')
-    props.rank.toString()
-);
 
 const onShow = () => {
     router.push(`/sticker/${props.id}`)

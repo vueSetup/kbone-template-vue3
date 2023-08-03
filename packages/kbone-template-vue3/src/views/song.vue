@@ -10,7 +10,7 @@
         </van-row>
         <van-row style="padding-top: 120px;">
             <van-col span="14" offset="5">
-                <img :src="`${staticUrl}/song_${btn}.png`" alt="" @click="onToggle" />
+                <!-- <img :src="`${staticUrl}/song_${btn}.png`" alt="" @click="onToggle" /> -->
             </van-col>
         </van-row>
         <div class="source" v-show="show">
@@ -41,13 +41,30 @@ watchPostEffect(() => {
 
 const onDownload = () => {
     if (isMiniprogram) {
+        wx.showLoading({
+            title: '下载中...',
+            mask: true
+        })
         wx.downloadFile({
             url: songUrl,
-            success() {
-                wx.showToast({
-                    title: '下载成功',
-                    icon: 'success',
-                    duration: 2000
+            success({ tempFilePath }: { tempFilePath: string }) {
+                wx.hideLoading()
+                wx.saveVideoToPhotosAlbum({
+                    filePath: tempFilePath,
+                    success() {
+                        wx.showToast({
+                            title: '已保存至相册',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    },
+                    fail() {
+                        wx.showToast({
+                            title: '保存失败',
+                            icon: 'error',
+                            duration: 2000
+                        })
+                    }
                 })
             }
         })

@@ -35,12 +35,13 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { TextArea } from 'weui-vue'
-import { staticUrl, current } from '@/shared/context'
+import { isMiniprogram, staticUrl, current } from '@/shared/context'
 import { request } from '@/utils'
+import type { Suggest } from '@/types';
 
 const show = ref<boolean>(false)
 
-const list = ref<string[]>([])
+const list = ref<Suggest[]>([])
 const loading = ref(false)
 const finished = ref(false)
 const refreshing = ref(false)
@@ -67,22 +68,11 @@ const onLoad = async () => {
   // }, 1000)
 }
 
-const onSubmit = async () => {
-  const serialNumber = current.value
-  console.log('submit', msg.value)
-  const result = await request.put(`/api/suggests/${serialNumber}`, { message: msg.value })
-  console.log('result', result)
-}
+
 
 watchEffect(() => {
   onLoad()
 })
-
-const onRefresh = () => {
-  finished.value = false
-  loading.value = true
-  onLoad()
-}
 
 const onPost = () => {
   show.value = true
@@ -90,6 +80,23 @@ const onPost = () => {
 
 const onClose = () => {
   show.value = false
+}
+
+const onSubmit = async () => {
+  const serialNumber = current.value
+  console.log('submit', msg.value)
+  const payload = await request.put(`/api/start/suggests/${serialNumber}`, { message: msg.value })
+  if (payload.data) {
+    show.value = false
+    onLoad()    
+    if (isMiniprogram) {
+      wx.showToast({
+        title: '已成功许愿',
+        icon: 'success',
+        duration: 2000
+      })
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -119,7 +126,7 @@ const onClose = () => {
     border-top-right-radius: 16px;
     background-color: #ffcb42;
 
-    & > img {
+    &>img {
       position: absolute;
       width: 80px;
       top: -35px;
@@ -152,6 +159,7 @@ const onClose = () => {
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
   .chat-item:last-child {
     margin-bottom: 64px;
   }

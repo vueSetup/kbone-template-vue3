@@ -9,10 +9,10 @@
         </div>
         <div class="actions">
             <div class="warpper">
-                <div class="rank">
+                <!-- <div class="rank">
                     <van-icon name="fire" />
                     <div class="text">{{ sticker?.rank }}</div>
-                </div>
+                </div> -->
             </div>
             <div class="warpper">
                 <div class="like" @click="onLike">
@@ -21,11 +21,10 @@
                 </div>
             </div>
             <div class="warpper">
-                <div class="download" @click="onDownload">
+                <!-- <div class="download" @click="onDownload">
                     <img :src="`${staticUrl}/download_icon.png`" class="van-icon" />
                     <div class="text">下载</div>
-
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -65,7 +64,7 @@ const onLike = async () => {
             })
         }
     } else {
-        if (isMiniprogram) {            
+        if (isMiniprogram) {
             wx.showToast({
                 title: '今日已投满三票',
                 icon: 'error',
@@ -77,13 +76,30 @@ const onLike = async () => {
 
 const onDownload = () => {
     if (isMiniprogram) {
+        wx.showLoading({
+            title: '下载中...',
+            mask: true
+        })
         wx.downloadFile({
             url: sticker.value?.imageUrl || '',
-            success() {
-                wx.showToast({
-                    title: '下载成功',
-                    icon: 'success',
-                    duration: 2000
+            success({ tempFilePath }: { tempFilePath: string }) {
+                wx.hideLoading()
+                wx.saveImageToPhotosAlbum({
+                    filePath: tempFilePath,
+                    success() {
+                        wx.showToast({
+                            title: '已保存至相册',
+                            icon: 'success',
+                            duration: 2000
+                        })
+                    },
+                    fail() {
+                        wx.showToast({
+                            title: '保存失败',
+                            icon: 'error',
+                            duration: 2000
+                        })
+                    }
                 })
             }
         })
