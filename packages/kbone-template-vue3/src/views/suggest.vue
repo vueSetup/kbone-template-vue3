@@ -49,6 +49,7 @@ const msg = ref<string>('')
 const onLoad = async () => {
   const payload = await request.get('/api/start/suggests')
   list.value = payload.data
+  // list.value = []
   // setTimeout(() => {
   //   if (refreshing.value) {
   //     list.value = []
@@ -70,8 +71,16 @@ const onLoad = async () => {
 const onSubmit = async () => {
   const serialNumber = current.value
   console.log('submit', msg.value)
-  const result = await request.put(`/api/suggests/${serialNumber}`, { message: msg.value })
-  console.log('result', result)
+  const result = await request.put(`/api/start/suggests/${serialNumber}`, { message: msg.value })
+  if (result) {
+    wx.showToast({
+      title: '许愿成功',
+      icon: 'success',
+      duration: 2000
+    })
+  }
+  show.value = false
+  onLoad()
 }
 
 watchEffect(() => {
