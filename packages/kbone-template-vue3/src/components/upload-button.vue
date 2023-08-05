@@ -9,8 +9,7 @@
 import { computed } from "vue";
 import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
-import { upload } from "@/utils/upload";
-
+// import { upload } from "@/utils/upload";
 
 const emits = defineEmits(['finish'])
 
@@ -54,24 +53,24 @@ const onUpload = async (url: string) => {
     if (!isMiniprogram) return
     const serialNumber = current.value
     const api = props.id ? `/api/start/${props.action}/${props.id}` : `/api/start/${serialNumber}/${props.action}`;
-    const uploader = await upload(serialNumber, url, async (imageUrl) => {
-        const payload = await request.put(api, { imageUrl })
-        if (payload.data) {
-            wx.showToast({
-                title: successMessage.value,
-                icon: 'success',
-                duration: 2000
-            })
-            emits('finish', payload.data)
-        }
-        if (payload.status === 204) {
-            wx.showToast({
-                title: errorMessage.value,
-                icon: 'error',
-                duration: 2000
-            })
-        }
-    })
-    uploader.startUpload()
+    // const uploader = await upload(serialNumber, url, async (imageUrl) => {
+    //     const payload = await request.put(api, { imageUrl })
+    //     if (payload.data) {
+    //         wx.showToast({
+    //             title: successMessage.value,
+    //             icon: 'success',
+    //             duration: 2000
+    //         })
+    //         emits('finish', payload.data)
+    //     }
+    //     if (payload.status === 204) {
+    //         wx.showToast({
+    //             title: errorMessage.value,
+    //             icon: 'error',
+    //             duration: 2000
+    //         })
+    //     }
+    // })
+    // uploader.startUpload()
 }
 </script>
