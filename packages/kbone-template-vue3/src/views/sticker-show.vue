@@ -9,10 +9,10 @@
         </div>
         <div class="actions">
             <div class="warpper">
-                <!-- <div class="rank">
+                <div class="rank">
                     <van-icon name="fire" />
                     <div class="text">{{ sticker?.rank }}</div>
-                </div> -->
+                </div>
             </div>
             <div class="warpper">
                 <div class="like" @click="onLike">
@@ -21,10 +21,10 @@
                 </div>
             </div>
             <div class="warpper">
-                <!-- <div class="download" @click="onDownload">
+                <div class="download" @click="onDownload">
                     <img :src="`${staticUrl}/download_icon.png`" class="van-icon" />
                     <div class="text">下载</div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>

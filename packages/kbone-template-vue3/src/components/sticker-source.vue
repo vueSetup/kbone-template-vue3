@@ -1,5 +1,5 @@
 <template>
-    <div class="stick_copy">
+    <div class="sticker_source">
         <div class="border">
             <div class="warpper" @click="onPreview">
                 <img :src="imageUrl" />
@@ -58,7 +58,7 @@ const onDownload = () => {
 }
 </script>
 <style lang="less">
-.stick_copy {
+.sticker_source {
     border: 1px solid #1f1f1f;
     border-radius: 15px;
     background-color: #ffcc5e;

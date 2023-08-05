@@ -6,7 +6,7 @@ import Sticker from '@/views/sticker.vue'
 import StickerShow from '@/views/sticker-show.vue'
 import Song from '@/views/song.vue'
 import Suggest from '@/views/suggest.vue'
-import Show from '@/views/show.vue'
+import Photo from '@/views/photo.vue'
 import Settings from '@/views/settings.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -37,9 +37,9 @@ const routes: RouteRecordRaw[] = [
         component: Suggest
       },
       {
-        path: 'show',
-        name: 'show',
-        component: Show
+        path: 'photo',
+        name: 'photo',
+        component: Photo
       },
       {
         path: 'settings',

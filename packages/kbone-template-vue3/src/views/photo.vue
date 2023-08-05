@@ -1,9 +1,9 @@
 <template>
-    <div class="sticker">
-        <img :src="`${staticUrl}/sticker_top.png`" />
+    <div class="photo">
+        <img :src="`${staticUrl}/photo_top.png`" />
         <van-row class="list" gutter="10">
             <van-col v-for="(item, index) in list" :key="item.id" span="12">
-                <sticker-card :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
+                <photo-card :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
                     <template v-slot:extra>
                         <div class="item_extra">
                             <div class="author">
@@ -19,36 +19,42 @@
                             </div>
                         </div>
                     </template>
-                </sticker-card>
+                </photo-card>
             </van-col>
         </van-row>
         <div class="sticky">
-            <upload-button action="stickers" @finish="onLoad" />
+            <upload-button @finish="onLoad" action="photos" />
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
 import { isMiniprogram, staticUrl } from "@/shared/context";
-import StickerCard from "@/components/sticker-card.vue";
+import PhotoCard from "@/components/photo-card.vue";
 import UploadButton from "@/components/upload-button.vue";
 import { request } from "@/utils";
-import type { Sticker } from "@/types";
+import type { Photo } from "@/types";
 
-const list = ref<Sticker[]>([]);
+const list = ref<Photo[]>([]);
 
 const onLoad = async () => {
-    const payload = await request.get('/api/start/stickers');
-    list.value = payload.data as Sticker[];
+    const payload = await request.get('/api/start/photos');
+    list.value = payload.data as Photo[];
 }
 
 watchEffect(() => {
     onLoad()
 })
 
+watchEffect(() => {
+    if (isMiniprogram) {
+        console.log('可以在这里写wx.xxx的代码')
+    }
+})
+
 </script>
 <style lang="less">
-.sticker {
+.photo {
     height: 100%;
     background-color: #b6effa;
     text-align: center;

@@ -1,5 +1,5 @@
 <template>
-    <div class="stick">
+    <div class="sticker_card">
         <div class="border">
             <div class="warpper" @click="onShow">
                 <img :src="url" />
@@ -27,12 +27,14 @@ const onShow = () => {
 }
 </script>
 <style lang="less">
-.stick {
+.sticker_card {
     border: 1px solid #1f1f1f;
     border-radius: 15px;
     background-color: #ffcc5e;
     box-shadow: 0 2px 0 0 rgba(0, 0, 0, 5);
 
+    // CSS实现正方形
+    //https://blog.csdn.net/XIAOLONGJUANFENG/article/details/113151599
     .border {
         width: 100%;
         position: relative;

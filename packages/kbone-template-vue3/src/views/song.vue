@@ -5,12 +5,12 @@
                 <img :src="`${staticUrl}/song_btn1.png`" @click="onShow" />
             </van-col>
             <van-col span="7" offset="1">
-                <img :src="`${staticUrl}/song_btn2.png`" @click="onDownload" />
+                <!-- <img :src="`${staticUrl}/song_btn2.png`" @click="onDownload" /> -->
             </van-col>
         </van-row>
         <van-row style="padding-top: 120px;">
             <van-col span="14" offset="5">
-                <!-- <img :src="`${staticUrl}/song_${btn}.png`" alt="" @click="onToggle" /> -->
+                <img :src="`${staticUrl}/song_${btn}.png`" alt="" @click="onToggle" />
             </van-col>
         </van-row>
         <div class="source" v-show="show">
@@ -22,6 +22,7 @@
 </template>
 <script setup lang="ts">
 import { computed, ref, watchPostEffect } from 'vue';
+import { onBeforeRouteLeave } from "vue-router";
 import { isMiniprogram, staticUrl, songUrl } from "@/shared/context";
 
 const show = ref<boolean>(false)
@@ -29,6 +30,10 @@ const show = ref<boolean>(false)
 const audio = ref<wx.InnerAudioContext | null>(null)
 const play = ref<boolean>(true)
 const btn = computed(() => play.value ? 'pause' : 'play')
+
+onBeforeRouteLeave(() => {
+    audio.value?.stop()
+})
 
 watchPostEffect(() => {
     if (!isMiniprogram) return

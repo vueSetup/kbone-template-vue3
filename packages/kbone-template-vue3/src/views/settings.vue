@@ -18,20 +18,20 @@
                     <van-empty :image="`${staticUrl}/empty-image.png`" image-size="80" description="暂未上传表情" />
                 </van-col>
                 <van-col v-else v-for="(item, index) in list" :key="item.id" span="8">
-                    <Stick :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
+                    <sticker-card :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
                         <template v-slot:extra>
                             <div class="item_extra">
-                                <Upload :id="item.id" button="settings_upload.png" @finish="onLoad" />
+                                <upload-button :id="item.id" button="settings_upload.png" @finish="onLoad" />
                             </div>
                         </template>
-                    </Stick>
+                    </sticker-card>
                 </van-col>
             </van-row>
         </div>
         <div v-else>
             <van-row gutter="10" class="list">
                 <van-col v-for="imageUrl in copies" :key="imageUrl" span="8">
-                    <StickCopy :imageUrl="imageUrl" />
+                    <stick-source :imageUrl="imageUrl" />
                 </van-col>
             </van-row>
         </div>
@@ -39,9 +39,9 @@
 </template>
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
-import Stick from "@/components/stick.vue";
-import StickCopy from "@/components/stick-copy.vue";
-import Upload from "@/components/upload-button.vue";
+import StickerCard from "@/components/sticker-card.vue";
+import StickSource from "@/components/sticker-source.vue";
+import UploadButton from "@/components/upload-button.vue";
 import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
 import type { Sticker } from "@/types";
@@ -129,10 +129,20 @@ const onToggle = () => {
 
         h4 {
             font-weight: normal;
+            color: #333333;
 
             &.active {
                 font-weight: bold;
-                color: #1f1f1f;
+                color: #c8000a;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 6px;
+                    height: 24px;
+                    margin-left: -10px;
+                    background: #c8000a;
+                }
             }
         }
     }

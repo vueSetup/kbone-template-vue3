@@ -40,7 +40,7 @@ const data = [
         label: "宁聚许愿墙",
     },
     {
-        name: "show",
+        name: "photo",
         label: "照片墙",
     },
     {

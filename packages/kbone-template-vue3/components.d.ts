@@ -7,10 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    PhotoCard: typeof import('./src/components/photo-card.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Stick: typeof import('./src/components/stick.vue')['default']
-    StickCopy: typeof import('./src/components/stick-copy.vue')['default']
+    StickerCard: typeof import('./src/components/sticker-card.vue')['default']
+    StickerSource: typeof import('./src/components/sticker-source.vue')['default']
     UploadButton: typeof import('./src/components/upload-button.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCol: typeof import('vant/es')['Col']
