@@ -20,7 +20,9 @@ module.exports = {
     navigationStyle: 'custom'
   },
   global: {
-    rem: true
+    // rem: true,
+    windowScroll:true,
+    reachBottom: true,
   },
   projectConfig: {
     projectname: 'lining',

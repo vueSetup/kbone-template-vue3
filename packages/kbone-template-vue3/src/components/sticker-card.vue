@@ -23,7 +23,7 @@ const props = defineProps<{
 const router = useRouter();
 
 const onShow = () => {
-    router.push(`/sticker/${props.id}`)
+    router.push(`/stickers/${props.id}`)
 }
 </script>
 <style lang="less">
