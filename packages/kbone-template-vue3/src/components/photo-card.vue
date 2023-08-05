@@ -1,5 +1,5 @@
 <template>
-    <div class="stick">
+    <div class="photo_card">
         <div class="border">
             <div class="warpper" @click="onShow">
                 <img :src="url" />
@@ -23,11 +23,12 @@ const props = defineProps<{
 const router = useRouter();
 
 const onShow = () => {
-    router.push(`/sticker/${props.id}`)
+    router.push(`/photos/${props.id}`)
 }
 </script>
 <style lang="less">
-.stick {
+.photo_card {
+    width: 100%;
     border: 1px solid #1f1f1f;
     border-radius: 15px;
     background-color: #ffcc5e;
@@ -35,16 +36,16 @@ const onShow = () => {
 
     .border {
         width: 100%;
-        position: relative;
+        // position: relative;
 
-        &:after {
-            content: '';
-            display: block;
-            padding-bottom: 100%;
-        }
+        // &:after {
+        //     content: '';
+        //     display: block;
+        //     padding-bottom: 100%;
+        // }
 
         .warpper {
-            position: absolute;
+            // position: absolute;
             width: 100%;
             height: 100%;
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="sticker-show">
+    <div class="photo-show">
         <div class="author">
             <div><img :src="sticker?.avatarUrl" class="avatar" /></div>
             <div>{{ sticker?.author }}</div>
@@ -33,17 +33,17 @@
 import { ref, watchEffect } from "vue";
 import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
-import type { Sticker } from "@/types";
+import type { Photo } from "@/types";
 
 const props = defineProps<{
     id: string
 }>()
 
-const sticker = ref<Sticker>()
+const sticker = ref<Photo>()
 
 const fetchData = async () => {
-    const payload = await request.get(`/api/start/stickers/${props.id}`)
-    sticker.value = payload.data as Sticker
+    const payload = await request.get(`/api/start/photos/${props.id}`)
+    sticker.value = payload.data as Photo
 }
 
 watchEffect(() => {
@@ -52,7 +52,7 @@ watchEffect(() => {
 
 const onLike = async () => {
     const serialNumber = current.value
-    const payload = await request.post(`/api/start/stickers/${props.id}/like`, { serialNumber })
+    const payload = await request.post(`/api/start/photos/${props.id}/like`, { serialNumber })
     const success = payload.data as boolean
     if (success) {
         fetchData()
@@ -108,7 +108,7 @@ const onDownload = () => {
 
 </script>
 <style lang="less">
-.sticker-show {
+.photo-show {
     width: 100%;
     height: 100%;
     background-attachment: fixed;
@@ -135,7 +135,6 @@ const onDownload = () => {
 
     .image {
         width: 250px;
-        height: 250px;
         margin: 0 auto;
         border: 1px solid #1f1f1f;
         border-radius: 15px;
@@ -145,7 +144,6 @@ const onDownload = () => {
 
         img {
             width: 100%;
-            height: 100%;
             border: 1px solid #1f1f1f;
             border-radius: 10px;
         }

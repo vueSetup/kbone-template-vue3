@@ -6,7 +6,8 @@ import Sticker from '@/views/sticker.vue'
 import StickerShow from '@/views/sticker-show.vue'
 import Song from '@/views/song.vue'
 import Suggest from '@/views/suggest.vue'
-import Show from '@/views/show.vue'
+import Photo from '@/views/photo.vue'
+import PhotoShow from '@/views/photo-show.vue'
 import Settings from '@/views/settings.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -21,7 +22,7 @@ const routes: RouteRecordRaw[] = [
         component: Sticker
       },
       {
-        path: 'sticker/:id',
+        path: 'stickers/:id',
         name: 'sticker-show',
         component: StickerShow,
         props: true
@@ -37,9 +38,15 @@ const routes: RouteRecordRaw[] = [
         component: Suggest
       },
       {
-        path: 'show',
-        name: 'show',
-        component: Show
+        path: 'photo',
+        name: 'photo',
+        component: Photo
+      },
+      {
+        path: 'photos/:id',
+        name: 'photo-show',
+        component: PhotoShow,
+        props: true
       },
       {
         path: 'settings',

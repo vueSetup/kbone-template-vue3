@@ -14,44 +14,64 @@
         </div>
         <div v-if="isSelfShow">
             <van-row gutter="10" class="list">
-                <van-col span="24" v-if="list.length == 0">
+                <van-col span="24" v-if="stickers.length == 0">
                     <van-empty :image="`${staticUrl}/empty-image.png`" image-size="80" description="暂未上传表情" />
                 </van-col>
-                <van-col v-else v-for="(item, index) in list" :key="item.id" span="8">
-                    <Stick :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
+                <van-col v-else v-for="(item, index) in stickers" :key="item.id" span="8">
+                    <sticker-card :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
                         <template v-slot:extra>
                             <div class="item_extra">
-                                <Upload :id="item.id" button="settings_upload.png" @finish="onLoad" />
+                                <upload-button :id="item.id" action="stickers" imageUrl="settings_upload.png"
+                                    @finish="onLoadStickers" />
                             </div>
                         </template>
-                    </Stick>
+                    </sticker-card>
                 </van-col>
             </van-row>
         </div>
         <div v-else>
             <van-row gutter="10" class="list">
-                <van-col v-for="imageUrl in copies" :key="imageUrl" span="8">
-                    <StickCopy :imageUrl="imageUrl" />
+                <van-col v-for="imageUrl in sources" :key="imageUrl" span="8">
+                    <stick-source :imageUrl="imageUrl" />
                 </van-col>
             </van-row>
         </div>
+        <div class="title">
+            <h4 class="active">我的照片秀</h4>
+        </div>
+        <van-row gutter="10" class="list">
+            <van-col span="24" v-if="photos.length == 0">
+                <van-empty :image="`${staticUrl}/empty-image.png`" image-size="80" description="暂未上传照片" />
+            </van-col>
+            <van-col v-else v-for="(item, index) in photos" :key="item.id" span="8">
+                <sticker-card :id="item.id" :rank="index + 1" :like="item.like" :url="item.imageUrl">
+                    <template v-slot:extra>
+                        <div class="item_extra">
+                            <upload-button :id="item.id" action="photos" imageUrl="settings_upload.png"
+                                @finish="onLoadPhotos" />
+                        </div>
+                    </template>
+                </sticker-card>
+            </van-col>
+        </van-row>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
-import Stick from "@/components/stick.vue";
-import StickCopy from "@/components/stick-copy.vue";
-import Upload from "@/components/upload-button.vue";
+import StickerCard from "@/components/sticker-card.vue";
+import StickSource from "@/components/sticker-source.vue";
+import UploadButton from "@/components/upload-button.vue";
 import { isMiniprogram, staticUrl, current } from "@/shared/context";
 import { request } from "@/utils";
-import type { Sticker } from "@/types";
+import type { Photo, Sticker } from "@/types";
 // import { upload } from "@/utils/upload";
 
 const avatar = ref(`${staticUrl}/user-unlogin.png`)
 const name = ref(`加载中...`)
 
-const list = ref<Sticker[]>([]);
-const copies = ref<string[]>([]);
+const sources = ref<string[]>([]);
+const stickers = ref<Sticker[]>([]);
+const photos = ref<Photo[]>([]);
 
 const isSelfShow = ref<boolean>(true)
 
@@ -65,25 +85,36 @@ watchEffect(async () => {
     }
 })
 
-const onLoad = async () => {
+const onLoadStickers = async () => {
     const serialNumber = current.value
     const payload = await request.get(`/api/start/${serialNumber}/stickers`);
-    list.value = payload.data as Sticker[];
+    stickers.value = payload.data as Sticker[];
 }
 
-// 加载我的表情包
-watchEffect(async () => {
-    await onLoad()
-    if (list.value.length === 0) {
-        isSelfShow.value = false
-    }
-})
+const onLoadPhotos = async () => {
+    const serialNumber = current.value
+    const payload = await request.get(`/api/start/${serialNumber}/photos`);
+    photos.value = payload.data as Photo[];
+}
 
 // 加载表情包素材
 watchEffect(async () => {
     for (let i = 1; i <= 19; i++) {
-        copies.value.push(`${staticUrl}/stickers/${i}.png`);
+        sources.value.push(`${staticUrl}/stickers/${i}.png`);
     }
+})
+
+// 加载我的表情包
+watchEffect(async () => {
+    await onLoadStickers()
+    // if (stickers.value.length === 0) {
+    //     isSelfShow.value = false
+    // }
+})
+
+// 加载我的照片
+watchEffect(async () => {
+    await onLoadPhotos()
 })
 
 const onChooseAvatar = async (e: { detail: Record<string, unknown> }) => {
@@ -129,10 +160,20 @@ const onToggle = () => {
 
         h4 {
             font-weight: normal;
+            color: #333333;
 
             &.active {
                 font-weight: bold;
-                color: #1f1f1f;
+                color: #c8000a;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 6px;
+                    height: 24px;
+                    margin-left: -10px;
+                    background: #c8000a;
+                }
             }
         }
     }
